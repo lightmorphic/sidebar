@@ -1,0 +1,153 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Sidemorphic</title>
+<link rel="stylesheet" href="sidebar.css">
+</head>
+<body>
+  <div class="shell">
+    <nav class="rail" role="tablist" aria-label="Sidebar sections">
+      <!-- Chromium's own panel header (the pin and X up top) can't be
+           altered by an extension; this is OUR minimise -- collapses the
+           whole panel, Ctrl+Shift+L or the toolbar icon brings it back. -->
+      <button class="rail-btn rail-btn-min" id="railMinimize" type="button" data-tip="Minimise &mdash; Ctrl+Shift+S reopens" aria-label="Minimise sidebar (Ctrl+Shift+S reopens)">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 4.5 13 10l-5.5 5.5"/></svg>
+      </button>
+      <button class="rail-btn active" data-panel="notes" role="tab" aria-selected="true" data-tip="Notes" aria-label="Notes">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 3h9l3 3v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M13 3v3h3"/><path d="M6.5 9.5h7M6.5 12.5h7M6.5 15.5h4"/></svg>
+      </button>
+      <!-- No separate "Panels" tab -- the pinned-site favicons further
+           down the rail ARE the panels UI; a redundant tab just confused
+           things. Clicking a favicon activates the panel view directly. -->
+      <button class="rail-btn" data-panel="bookmarks" role="tab" aria-selected="false" data-tip="Bookmarks" aria-label="Bookmarks">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3.5h10a.5.5 0 0 1 .5.5v13l-5.5-3.5L4.5 17V4a.5.5 0 0 1 .5-.5z"/></svg>
+      </button>
+      <button class="rail-btn" data-panel="snippets" role="tab" aria-selected="false" data-tip="Quick paste snippets" aria-label="Quick paste snippets">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="10" height="13" rx="1.2"/><path d="M8 3.5h4a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H8a.5.5 0 0 1-.5-.5V4a.5.5 0 0 1 .5-.5z"/><path d="M7.5 9h5M7.5 12h5"/></svg>
+      </button>
+      <button class="rail-btn" data-panel="privacy" role="tab" aria-selected="false" data-tip="Cookies" aria-label="Cookie controls">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2.5a7.5 7.5 0 1 0 7.5 7.5 3 3 0 0 1-3.6-4.2A3 3 0 0 1 10 2.5z"/><circle cx="8" cy="9" r=".9" fill="currentColor" stroke="none"/><circle cx="12" cy="12.5" r=".9" fill="currentColor" stroke="none"/><circle cx="7.5" cy="13" r=".7" fill="currentColor" stroke="none"/></svg>
+      </button>
+      <div class="rail-divider"></div>
+      <!-- Pinned sites render here as favicon buttons, Vivaldi-style -->
+      <div class="rail-sites" id="railSites"></div>
+      <button class="rail-btn" id="railAddSite" type="button" data-tip="Pin this page" aria-label="Pin the page you're on now">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M10 4.5v11M4.5 10h11"/></svg>
+      </button>
+      <div class="rail-spacer"></div>
+      <button class="rail-btn rail-btn-settings" data-panel="settings" role="tab" aria-selected="false" data-tip="Settings" aria-label="Settings">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      </button>
+    </nav>
+
+    <div class="content">
+      <section id="panel-notes" class="panel-view active">
+        <textarea id="notepad" placeholder="Notes — kept on this device..."></textarea>
+      </section>
+
+      <section id="panel-panels" class="panel-view">
+        <p class="empty-state" id="panelsEmpty">Pinned sites open here. Add one with the &plus; on the rail &mdash; the site you're on is pre-filled and you can edit it before saving. Click a pinned icon to open it; right-click to edit or remove.</p>
+        <div class="panel-nav" id="panelNav" hidden>
+          <button id="panelBack" type="button" title="Back" aria-label="Back">
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12.5 4.5 7 10l5.5 5.5"/></svg>
+          </button>
+          <button id="panelForward" type="button" title="Forward" aria-label="Forward">
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 4.5 13 10l-5.5 5.5"/></svg>
+          </button>
+          <button id="panelReload" type="button" title="Reload" aria-label="Reload">
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15.5 6.5A6 6 0 1 0 16 10"/><path d="M15.5 3.5v3h-3"/></svg>
+          </button>
+          <span class="panel-nav-host" id="panelNavHost"></span>
+        </div>
+        <iframe id="webPanelFrame" class="web-frame" hidden></iframe>
+      </section>
+
+      <section id="panel-bookmarks" class="panel-view">
+        <div class="bookmark-tree" id="bookmarkTree"></div>
+        <button id="bookmarkCurrentPageBtn" class="add-current-btn" type="button" title="Bookmark the page you're on now">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M10 4.5v11M4.5 10h11"/></svg>
+          <span id="bookmarkCurrentPageLabel">Bookmark this page</span>
+        </button>
+        <iframe id="bookmarkFrame" class="web-frame" hidden></iframe>
+      </section>
+
+      <section id="panel-snippets" class="panel-view">
+        <h2 class="settings-heading">Snippets &amp; text expander</h2>
+        <p class="hint">Right-click any text box &rarr; Quick paste to insert a snippet. Give one a <strong>shortcut</strong> and typing it anywhere expands instantly &mdash; e.g. <code>12#</code> &rarr; your phone number.</p>
+        <div class="panel-list" id="snippetList"></div>
+        <form id="addSnippetForm" class="add-row snippet-add-row">
+          <input id="addSnippetLabel" type="text" placeholder="Label &mdash; e.g. Phone">
+          <input id="addSnippetAbbrev" type="text" placeholder="Shortcut (optional) &mdash; e.g. 12#" autocomplete="off" spellcheck="false">
+          <textarea id="addSnippetText" placeholder="Text to insert &mdash; e.g. 07700 900123" required></textarea>
+          <button type="submit" class="btn-primary">Save</button>
+        </form>
+      </section>
+
+      <section id="panel-privacy" class="panel-view">
+        <h2 class="settings-heading">Cookies</h2>
+        <label class="select-row">Everywhere
+          <select id="cookieGlobal">
+            <option value="allow">Allow</option>
+            <option value="session_only">This session only</option>
+            <option value="block">Block all</option>
+          </select>
+        </label>
+        <p class="hint">&ldquo;This session only&rdquo; accepts cookies so sites work, then wipes them when you close the browser. Set a different rule for any individual site below &mdash; open the site, then use &ldquo;Cookies here&rdquo;.</p>
+        <div class="panel-list" id="cookieRuleList"></div>
+
+        <h2 class="settings-heading">This site</h2>
+        <label class="select-row">Cookies here
+          <select id="cookieSite">
+            <option value="default">Same as everywhere</option>
+            <option value="allow">Allow</option>
+            <option value="session_only">This session only</option>
+            <option value="block">Block</option>
+          </select>
+        </label>
+      </section>
+
+      <section id="panel-settings" class="panel-view">
+        <h2 class="settings-heading">Privacy defaults</h2>
+        <p class="hint">On first run Sidemorphic turns off Chrome's password saving and autofill for addresses and cards. Change them back any time in Chrome's own settings &mdash; it is applied once, not enforced.</p>
+
+        <h2 class="settings-heading">Site access</h2>
+        <p class="hint">Sidemorphic starts with access to no websites at all. A pinned panel asks your permission for that one site the first time you open it, and nothing else.</p>
+
+        <h2 class="settings-heading">About</h2>
+        <div class="status-row">
+          <span class="status-dot ok"></span>
+          <span>Sidemorphic <span id="aboutVersion">&hellip;</span></span>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- Add / edit a pinned site. The URL is pre-filled (current tab when
+       adding) and editable before saving. -->
+  <dialog id="siteDialog">
+    <form id="siteForm" method="dialog">
+      <h2 id="siteDialogTitle">Pin this page</h2>
+      <!-- type=text, NOT type=url: url inputs reject "bbc.com" outright,
+           forcing the user to type https:// by hand. We normalise instead
+           (https:// is prepended automatically on save). -->
+      <label>Address
+        <input id="siteUrl" type="text" placeholder="e.g. bbc.com" required autocomplete="off" spellcheck="false">
+      </label>
+      <div class="dialog-actions">
+        <button type="button" id="siteCancel" class="btn-secondary">Cancel</button>
+        <button type="submit" class="btn-primary">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Right-click menu for a pinned rail icon. -->
+  <div id="siteMenu" class="ctx-menu" hidden>
+    <button type="button" data-act="edit">Edit URL</button>
+    <button type="button" data-act="delete">Remove</button>
+  </div>
+
+  <script type="module" src="sidebar.js"></script>
+</body>
+</html>
