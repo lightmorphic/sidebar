@@ -1,0 +1,50 @@
+{
+  "manifest_version": 3,
+  "name": "Sidemorphic",
+  "version": "0.1.0",
+  "description": "A private side panel for Chrome: pinned web panels, a clean new tab, and cookie controls.",
+  "icons": {
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
+  "action": {
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "32": "icons/icon-32.png"
+    },
+    "default_title": "Sidemorphic"
+  },
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "side_panel": {
+    "default_path": "sidebar/sidebar.html"
+  },
+  "commands": {
+    "_execute_action": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+S"
+      },
+      "description": "Open the Sidemorphic panel"
+    }
+  },
+  "chrome_url_overrides": {
+    "newtab": "newtab/newtab.html"
+  },
+  "permissions": [
+    "sidePanel",
+    "storage",
+    "contentSettings",
+    "browsingData",
+    "privacy",
+    "tabs",
+    "bookmarks",
+    "declarativeNetRequestWithHostAccess"
+  ],
+  "optional_host_permissions": [
+    "*://*/*"
+  ]
+}
