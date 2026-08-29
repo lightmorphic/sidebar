@@ -3,6 +3,14 @@
 A private side panel for Chrome, shipped as a plain MV3 extension on the
 Chrome Web Store. `extension/` is the whole product; there is no build step.
 
+**Chrome only.** Chrome and the Chromium browsers that take Web Store
+extensions — Edge, Brave, Vivaldi, Opera. Firefox is a maybe for the future
+and nothing more: it has no `chrome.sidePanel` (it uses `sidebarAction`), so
+the panel — the entire product — would need rewriting. Do not add
+`browser_specific_settings`, polyfills, or `browser.*` call sites "to be
+ready"; that is speculative work on a decision Charlie has not made.
+`minimum_chrome_version` is 114, the release that shipped the side panel.
+
 ## Memory
 
 Durable project memory is **not** auto-loaded — it lives outside this repo in
