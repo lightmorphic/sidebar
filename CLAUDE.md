@@ -1,7 +1,7 @@
 # Sidemorphic — working notes for Claude
 
 A private side panel for Chrome, shipped as a plain MV3 extension on the
-Chrome Web Store. `extension/` is the whole product; there is no build step.
+Chrome Web Store. `chrome/` is the whole product; there is no build step.
 
 **Chrome only.** Chrome and the Chromium browsers that take Web Store
 extensions — Edge, Brave, Vivaldi, Opera. Firefox is a maybe for the future
@@ -42,6 +42,6 @@ Push with a `GIT_ASKPASS` script reading `~/9-Claude/Tokens/sidemorphic-token`
 
 ## Testing
 
-Load `extension/` unpacked at `chrome://extensions` with Developer mode on.
+Load `chrome/` unpacked at `chrome://extensions` with Developer mode on.
 Test the pinned-panel permission prompt on a **fresh profile** — the grant is
 remembered, so an already-granted profile hides the first-run behaviour.
