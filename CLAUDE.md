@@ -1,4 +1,4 @@
-# Sidemorphic — working notes for Claude
+# Lightmorphic Sidebar — working notes for Claude
 
 A private side panel for Chrome, shipped as a plain MV3 extension on the
 Chrome Web Store. `chrome/` is the whole product; there is no build step.
@@ -14,7 +14,7 @@ ready"; that is speculative work on a decision Charlie has not made.
 ## Memory
 
 Durable project memory is **not** auto-loaded — it lives outside this repo in
-`/opt/projects/.claude/projects/lm-sidemorphic/memory/`. Read `MEMORY.md`
+`/opt/projects/.claude/projects/lm-sidebar/memory/`. Read `MEMORY.md`
 there at the start of a session, and write new durable facts into that folder.
 
 ## Where this came from
@@ -37,7 +37,7 @@ justification at submission, so don't add one casually.
 
 No git identity is configured on this machine, so pass it inline:
 `git -c user.name='FOSSCharlie' -c user.email='github@lightmorphic.co.uk' commit`.
-Push with a `GIT_ASKPASS` script reading `~/9-Claude/Tokens/sidemorphic-token`
+Push with a `GIT_ASKPASS` script reading `~/9-Claude/Tokens/sidebar-token`
 — never echo the token.
 
 ## Testing
